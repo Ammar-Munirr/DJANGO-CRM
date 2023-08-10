@@ -18,10 +18,11 @@
 </head>
 
 <body>
+    <a href="{% url 'leads:lead-create' %}">Create a New Lead</a>
     <h1>This is our leads</h1>
     {% for lead in leads %}
     <div class='lead'>
-        <a href={% url 'leads:lead-detail' lead.pk %}>{{lead.first_name}}</a>. Age:{{lead.age}}  <a href="{% url 'leads:lead-update' lead.pk %}"><button>Update</button></a>
+        <a href={% url 'leads:lead-detail' lead.pk %}>{{lead.first_name}}</a>. Age:{{lead.age}}  <a href="{% url 'leads:lead-update' lead.pk %}"><button>Update</button></a> <a href="{% url 'leads:lead-delete' lead.pk %}"><button>Delete</button></a>
     </div>
     {% endfor %}
 </body>

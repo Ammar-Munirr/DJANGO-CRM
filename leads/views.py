@@ -1,4 +1,3 @@
-from django.forms.models import BaseModelForm
 from django.http import HttpResponse
 from django.shortcuts import render,reverse
 from django.views import generic
@@ -33,5 +32,11 @@ class LeadUpdateView(generic.UpdateView):
     template_name = 'leads/lead-update.html'
     queryset = LeadModel.objects.all()
     form_class = LeadModelForm
+    def get_success_url(self):
+        return reverse('leads:lead-list')
+    
+class LeadDeleteView(generic.DeleteView):
+    template_name = 'leads/lead-delete.html'
+    queryset = LeadModel.objects.all()
     def get_success_url(self):
         return reverse('leads:lead-list')
