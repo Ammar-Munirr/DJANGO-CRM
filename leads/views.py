@@ -1,6 +1,10 @@
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import generic
+from .models import Agent
 from .models import LeadModel
+from .forms import LeadModelForm
 
 
 class Home(generic.TemplateView):
@@ -17,3 +21,9 @@ class LeadDetailView(generic.DetailView):
     template_name = 'leads/lead-detail.html'
     queryset = LeadModel.objects.all()
     context_object_name = 'lead'
+
+
+class LeadCreateView(generic.CreateView):
+    template_name = 'leads/lead-create.html'
+    form_class = LeadModelForm
+    success_url = '/leads/list'
