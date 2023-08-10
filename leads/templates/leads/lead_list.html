@@ -21,7 +21,7 @@
     <h1>This is our leads</h1>
     {% for lead in leads %}
     <div class='lead'>
-        {{lead.first_name}}. Age:{{lead.age}}
+        <a href={% url 'leads:lead-detail' lead.pk %}>{{lead.first_name}}</a>. Age:{{lead.age}}
     </div>
     {% endfor %}
 </body>

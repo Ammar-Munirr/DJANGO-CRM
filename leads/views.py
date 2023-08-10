@@ -11,3 +11,9 @@ class LeadList(generic.ListView):
     template_name = 'leads/lead_list.html'
     queryset = LeadModel.objects.all()
     context_object_name = 'leads'
+
+
+class LeadDetailView(generic.DetailView):
+    template_name = 'leads/lead-detail.html'
+    queryset = LeadModel.objects.all()
+    context_object_name = 'lead'
