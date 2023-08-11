@@ -27,6 +27,7 @@ class LeadCreateView(generic.CreateView):
 class LeadUpdateView(generic.UpdateView):
     template_name = 'leads/lead-update.html'
     queryset = LeadModel.objects.all()
+    context_object_name = 'lead'
     form_class = LeadModelForm
     def get_success_url(self):
         return reverse('leads:lead-list')
