@@ -1,29 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lead List</title>
-<style>
-    .lead{
-        padding-top: 10px;
-        padding-bottom: 10px;
-        padding-left: 6px;
-        padding-right: 6px;
-        margin-top: 10px;
-        background-color: #f6f6f6;
-        width: 100%;
-    }
-</style>
-</head>
-
-<body>
-    <a href="{% url 'leads:lead-create' %}">Create a New Lead</a>
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'leads:lead-create' %}">Create a New Lead</a>
     <h1>This is our leads</h1>
     {% for lead in leads %}
     <div class='lead'>
         <a href={% url 'leads:lead-detail' lead.pk %}>{{lead.first_name}}</a>. Age:{{lead.age}}  <a href="{% url 'leads:lead-update' lead.pk %}"><button>Update</button></a> <a href="{% url 'leads:lead-delete' lead.pk %}"><button>Delete</button></a>
     </div>
     {% endfor %}
-</body>
-</html>
+{% endblock content %}
