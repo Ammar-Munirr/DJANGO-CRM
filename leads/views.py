@@ -4,8 +4,16 @@ from django.shortcuts import render,reverse
 from django.views import generic
 from .models import Agent
 from .models import LeadModel
-from .forms import LeadModelForm
+from .forms import LeadModelForm,CustomUserCreationForm
 
+
+
+
+class SignupView(generic.CreateView):
+    template_name = 'registration/signup.html'
+    form_class = CustomUserCreationForm
+    def get_success_url(self):
+        return reverse('login')
 
 class Home(generic.TemplateView):
     template_name = 'leads/home.html'
