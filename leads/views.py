@@ -5,6 +5,7 @@ from django.views import generic
 from .models import Agent
 from .models import LeadModel
 from .forms import LeadModelForm,CustomUserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
@@ -18,17 +19,17 @@ class SignupView(generic.CreateView):
 class Home(generic.TemplateView):
     template_name = 'leads/home.html'
 
-class LeadList(generic.ListView):
+class LeadList(LoginRequiredMixin,generic.ListView):
     template_name = 'leads/lead_list.html'
     queryset = LeadModel.objects.all()
     context_object_name = 'leads'
 
-class LeadDetailView(generic.DetailView):
+class LeadDetailView(LoginRequiredMixin,generic.DetailView):
     template_name = 'leads/lead-detail.html'
     queryset = LeadModel.objects.all()
     context_object_name = 'lead'
 
-class LeadCreateView(generic.CreateView):
+class LeadCreateView(LoginRequiredMixin,generic.CreateView):
     template_name = 'leads/lead-create.html'
     form_class = LeadModelForm
     success_url = '/leads/list'
@@ -41,7 +42,7 @@ class LeadCreateView(generic.CreateView):
         )
         return super(LeadCreateView,self).form_valid(form)
 
-class LeadUpdateView(generic.UpdateView):
+class LeadUpdateView(LoginRequiredMixin,generic.UpdateView):
     template_name = 'leads/lead-update.html'
     queryset = LeadModel.objects.all()
     context_object_name = 'lead'
@@ -49,7 +50,7 @@ class LeadUpdateView(generic.UpdateView):
     def get_success_url(self):
         return reverse('leads:lead-list')
     
-class LeadDeleteView(generic.DeleteView):
+class LeadDeleteView(LoginRequiredMixin,generic.DeleteView):
     template_name = 'leads/lead-delete.html'
     queryset = LeadModel.objects.all()
     def get_success_url(self):

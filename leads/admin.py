@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import LeadModel,Agent,User
+from .models import LeadModel,Agent,User,UserProfile
 
 @admin.register(LeadModel)
 class Leadadmin(admin.ModelAdmin):
@@ -12,3 +12,5 @@ class Agentadmin(admin.ModelAdmin):
 @admin.register(User)
 class Useradmin(admin.ModelAdmin):
     list_display = ['username','email']
+
+admin.site.register(UserProfile)
