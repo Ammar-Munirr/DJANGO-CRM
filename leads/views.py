@@ -32,7 +32,8 @@ class LeadDetailView(LoginRequiredMixin,generic.DetailView):
 class LeadCreateView(LoginRequiredMixin,generic.CreateView):
     template_name = 'leads/lead-create.html'
     form_class = LeadModelForm
-    success_url = '/leads/list'
+    def get_success_url(self):
+        return reverse('leads:lead-list')
     def form_valid(self,form):
         send_mail(
             subject='LEAD CREATED',
