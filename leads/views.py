@@ -6,7 +6,7 @@ from .models import Agent
 from .models import LeadModel
 from .forms import LeadModelForm,CustomUserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from agents.mixins import OrganisorLoginRequiredMixin
 
 
 
@@ -29,7 +29,7 @@ class LeadDetailView(LoginRequiredMixin,generic.DetailView):
     queryset = LeadModel.objects.all()
     context_object_name = 'lead'
 
-class LeadCreateView(LoginRequiredMixin,generic.CreateView):
+class LeadCreateView(OrganisorLoginRequiredMixin,generic.CreateView):
     template_name = 'leads/lead-create.html'
     form_class = LeadModelForm
     def get_success_url(self):
@@ -43,7 +43,7 @@ class LeadCreateView(LoginRequiredMixin,generic.CreateView):
         )
         return super(LeadCreateView,self).form_valid(form)
 
-class LeadUpdateView(LoginRequiredMixin,generic.UpdateView):
+class LeadUpdateView(OrganisorLoginRequiredMixin,generic.UpdateView):
     template_name = 'leads/lead-update.html'
     queryset = LeadModel.objects.all()
     context_object_name = 'lead'
@@ -51,7 +51,7 @@ class LeadUpdateView(LoginRequiredMixin,generic.UpdateView):
     def get_success_url(self):
         return reverse('leads:lead-list')
     
-class LeadDeleteView(LoginRequiredMixin,generic.DeleteView):
+class LeadDeleteView(OrganisorLoginRequiredMixin,generic.DeleteView):
     template_name = 'leads/lead-delete.html'
     queryset = LeadModel.objects.all()
     def get_success_url(self):
