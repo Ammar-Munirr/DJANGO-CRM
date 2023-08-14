@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.core.mail import send_mail
+import random
 from django.shortcuts import render,reverse
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,7 +16,6 @@ class AgentListView(OrganisorLoginRequiredMixin,generic.ListView):
         organization = self.request.user.userprofile
         return Agent.objects.filter(organization=organization)
     
-
 class AgentCreateView(OrganisorLoginRequiredMixin,generic.CreateView):
     template_name = 'agents/agent-create.html'
     form_class = AgentForm
@@ -25,6 +25,7 @@ class AgentCreateView(OrganisorLoginRequiredMixin,generic.CreateView):
         user = form.save(commit=False)
         user.is_agent = True
         user.is_organisor = False
+        user.set_password(str(random.randint(0,10000)))
         user.save()
         Agent.objects.create(
             user=user,
@@ -38,7 +39,6 @@ class AgentCreateView(OrganisorLoginRequiredMixin,generic.CreateView):
         )
         return super(AgentCreateView,self).form_valid(form)
     
-
 class AgentDetailView(OrganisorLoginRequiredMixin,generic.DetailView):
     template_name = 'agents/agent-detail.html'
     context_object_name = 'agent'
@@ -46,7 +46,6 @@ class AgentDetailView(OrganisorLoginRequiredMixin,generic.DetailView):
         organization = self.request.user.userprofile
         return Agent.objects.filter(organization=organization)
     
-
 class AgentUpdateView(OrganisorLoginRequiredMixin,generic.UpdateView):
     template_name = 'agents/agent-update.html'
     form_class = AgentForm
@@ -56,8 +55,6 @@ class AgentUpdateView(OrganisorLoginRequiredMixin,generic.UpdateView):
     def get_success_url(self):
         return reverse('agents:agent-list')
     
-
-
 class AgentDeleteView(OrganisorLoginRequiredMixin,generic.DeleteView):
     template_name = 'agents/agent-delete.html'
     def get_queryset(self):
