@@ -5,7 +5,7 @@ from django.shortcuts import render,reverse
 from django.views import generic
 from .models import Agent
 from .models import LeadModel,Category
-from .forms import LeadModelForm,CustomUserCreationForm,AssignAgentForm
+from .forms import LeadModelForm,CustomUserCreationForm,AssignAgentForm,LeadCategoryUpdate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from agents.mixins import OrganisorLoginRequiredMixin
 
@@ -141,3 +141,20 @@ class CategoryDetailView(LoginRequiredMixin,generic.DetailView):
         else:
             queryset = Category.objects.filter(organization=user.agent.organization)
         return queryset
+    
+
+class LeadCategoryUpdateView(LoginRequiredMixin,generic.UpdateView):
+    template_name = 'leads/category-update.html'
+    context_object_name = 'lead'
+    form_class = LeadCategoryUpdate
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_organisor:
+            queryset = LeadModel.objects.filter(organization=user.userprofile)
+        else:
+            queryset = LeadModel.objects.filter(organization=user.agent.organization)
+            queryset = queryset.filter(agent__user=user)
+        return queryset
+
+    def get_success_url(self):
+        return reverse('leads:lead-detail',kwargs={'pk':self.get_object().id })
