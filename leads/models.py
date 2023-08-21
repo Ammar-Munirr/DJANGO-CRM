@@ -21,12 +21,19 @@ class LeadModel(models.Model):
     age = models.IntegerField()
     organization = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
     agent = models.ForeignKey("Agent",null=True,blank=True,on_delete=models.SET_NULL)
+    category = models.ForeignKey("category",null=True,blank=True,on_delete=models.SET_NULL)
 
 
     def __str__(self):
         return self.first_name
     
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=30)
+    organization = models.ForeignKey(UserProfile,on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
 
 class Agent(models.Model):
